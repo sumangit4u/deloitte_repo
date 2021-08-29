@@ -38,11 +38,11 @@ def train():
    final_df = custom_df.merge(json_df)
    final_df = final_df.merge(tsv_df) 
 
-   feature_cols = [col for col in final_df.columns if 'feature' in col]
+   feature_cols = [col for col in final_df.columns if 'feature' in col and col not in ['feature_9','feature_8']]
    X=final_df[feature_cols]
    Y=final_df['Target']
 
-   x_train,x_test,y_train,y_test = train_test_split(X,Y,test_size=0.3,shuffle = True)
+   x_train,x_test,y_train,y_test = train_test_split(X,Y,test_size=0.3,shuffle = True,random_state=42)
 
    le = LabelEncoder()
    le.fit(x_train['feature_2'])
@@ -61,9 +61,9 @@ def train():
    dump(lr, open('model/lr.pkl', 'wb'))
    pred = lr.predict(x_test_sc)
    pred_train = lr.predict(x_train_sc)
-   print('Train Accuracy:',accuracy_score(y_train,pred_train))
-   print('Test Accuracy:',accuracy_score(y_test,pred))  
-   resp = 'Train Accuracy:' + str(accuracy_score(y_train,pred_train))+'\n'+'Test Accuracy:' + str(accuracy_score(y_test,pred))
+   print('Train F1 Score:',f1_score(y_train,pred_train))
+   print('Test Accuracy:',f1_score(y_test,pred))  
+   resp = 'Train F1 Score:' + str(f1_score(y_train,pred_train))+'\n'+'Test F1 Score:' + str(f1_score(y_test,pred))
 
 
    return resp
@@ -77,14 +77,14 @@ def predict():
    feature_5=float(request.args.get('feature_5'))
    feature_6=float(request.args.get('feature_6'))
    feature_7=float(request.args.get('feature_7'))
-   feature_8=float(request.args.get('feature_8'))
-   feature_9=float(request.args.get('feature_9'))
+   # feature_8=float(request.args.get('feature_8'))
+   # feature_9=float(request.args.get('feature_9'))
    feature_10=float(request.args.get('feature_10'))
 
    le_load = load(open('model/le.pkl','rb'))
    feature_2 = le_load.transform([feature_2])[0]
    
-   test_df = np.array([feature_9,feature_10,feature_1,feature_2,feature_3,feature_4,feature_5,feature_6,feature_7,feature_8])   
+   test_df = np.array([feature_10,feature_1,feature_2,feature_3,feature_4,feature_5,feature_6,feature_7])   
    test_df = test_df.reshape(1,-1)
 
    print(test_df.shape)

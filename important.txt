@@ -1,0 +1,9 @@
+docker build -t sumandasdocker4u/deloitte:latest .
+docker container run --publish 5000:5000 --detach sumandocker4u/deloitte:latest
+
+
+http://192.168.43.243:5000/predict?feature_9=1.03097624269&feature_10=2.94378405327&feature_1=3.436425&feature_2=C&feature_3=-4.937046&feature_4=33.473868&feature_5=9042.470623&feature_6=4&feature_7=9.322450&feature_8=0.041292
+
+curl "http://localhost:5049/"
+curl "http://localhost:5049/predict?feature_9=1.03097624269&feature_10=2.94378405327&feature_1=3.436425&feature_2=C&feature_3=-4.937046&feature_4=33.473868&feature_5=9042.470623&feature_6=4&feature_7=9.322450&feature_8=0.041292"
+curl "http://192.168.43.243:5000/predict?feature_10=2.94378405327&feature_1=3.436425&feature_2=C&feature_3=-0.937046&feature_4=33.473868&feature_5=9042.470623&feature_6=4&feature_7=0.322450"
